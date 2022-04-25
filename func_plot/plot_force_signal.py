@@ -12,15 +12,15 @@ import os
 from matplotlib import font_manager as fm
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--path_for_loading", type=str, default=None, help="path for loading results and models")
-parser.add_argument("--dirname_for_loading", type=str, default='c_{}_{]', help="directory name for loading results without TL")
+parser.add_argument("--path_for_loading", type=str, default=None, help="path for loading force signal")
+parser.add_argument("--dirname_for_loading", type=str, default='c_{}_{]', help="directory name for loading force signal")
 parser.add_argument("--env_name", type=str, default='env-3M-v0', help="environment name")
 parser.add_argument("--env_surname", type=str, default='3M-v0', help="environment name")
 parser.add_argument("--transition", type=str, default='111_to_001')
 parser.add_argument("--c", type=float, default=2.1)
 parser.add_argument("--num_fig", type=int, default=1)
 parser.add_argument("--path_for_saving_fig", tyoe=str, default=None)
-parser.add_argument("--fig_name", type=str, default='Transfer_learning')
+parser.add_argument("--fig_name", type=str, default=None)
 parser.add_argument("--path_for_font", typr=str, default=None)
 args = parser.parse_args()
 
