@@ -29,12 +29,6 @@ parser.add_argument("--path_to_save", type=str, default=None, help="path for res
 parser.add_argument("--path_for_loading", type=str, default=None, help="path for loading models")
 parser.add_argument("--dirname", type=str, default='c_{}_{}', help="directory to put results in")
 parser.add_argument("--tar_act_noise", type=float, default=0.5, help="maximum target actions noise")
-parser.add_argument("--threshold", type=float, default=None, help="threshold on the difference of the force signal")
-parser.add_argument("--noise", type=float, default=None, help="add noise to the observation. Be careful with the seeds")
-parser.add_argument("--scheduler", default=None, help="scheduler torch.optim")
-parser.add_argument("--automatically_stop", type=bool, default=False, help="automatically kills the code when a success rate is reached")
-parser.add_argument("--success_threshold", type=float, default=0.95, help="success rate threshold for stopping learning")
-parser.add_argument("--save_force_signal", type=bool, default=False, help="save force signal during training")
 parser.add_argument("--c_gridsearch_overdamped", default=[2., 3., 4., 5., 6., 7., 8., 9., 10.], help="dissipation gridsearch toward the overdamped regime")
 parser.add_argument("--c_gridsearch_inertial", default=[2., 1., 0.6, 0.3, 0.2, 0.1, 0.], help="dissipation gridsearch toward the overdamped regime")
 args = parser.parse_args()
@@ -70,12 +64,6 @@ for dissipation in range(len(args.c_gridsearch_overdamped)):
                   dirname_to_save=args.dirname.format(int(args.c_gridsearch_overdamped[dissipation]), int(str(args.c_gridsearch_overdamped[dissipation]).split('.')[1])),
                   dirname_for_loading=args.dirname_for_loading,
                   tar_act_noise=args.tar_act_noise,
-                  threshold=args.threshold,
-                  noise=args.noise,
-                  scheduler=args.scheduler,
-                  automatically_stop=args.automatically_stop,
-                  success_threshold=args.success_threshold,
-                  save_force_signal=args.save_force_signal,
                   )
 
     agent, eval_env = train.main()
