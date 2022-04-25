@@ -31,12 +31,6 @@ parser.add_argument("--path_for_loading", type=str, default=None, help="path for
 parser.add_argument("--dirname_for_saving", type=str, default='c_{}_{}', help="directory for loading models")
 parser.add_argument("--dirname_to_save", type=str, default="m_{}_{}_Fmax_{}_{}_c_{}_{}_{}", help="directory to put results in")
 parser.add_argument("--tar_act_noise", type=float, default=0.5, help="maximum target actions noise")
-parser.add_argument("--threshold", type=float, default=None, help="threshold on the difference of the force signal")
-parser.add_argument("--noise", type=float, default=None, help="add noise to the observation. Be careful with the seeds")
-parser.add_argument("--scheduler", default=None, help="scheduler torch.optim")
-parser.add_argument("--automatically_stop", type=bool, default=False, help="automatically kills the code when a success rate is reached")
-parser.add_argument("--success_threshold", type=float, default=0.95, help="success rate threshold for stopping learning")
-parser.add_argument("--save_force_signal", type=bool, default=False, help="save force signal during training")
 parser.add_argument("--c_gridsearch", default=[0., 1., 2., 3., 4., 5., 6., 7., 8., 9., 10.], help="dissipation gridsearch")
 parser.add_argument("--m_gridsearch", default=[0.03, 0.05, 0.07, 0.1, 0.2, 0.3, 0.5, 0.8, 1., 1.5, 2., 3., 5., 7., 10., 20.], help="mass gridsearch")
 parser.add_argument("--f_gridsearch", default=[0.05, 0.1, 0.2, 0.3, 0.5, 0.8, 1., 1.5, 2., 3., 5., 7., 10., 15.], help="Maximal amplitude force gridsearch")
@@ -141,12 +135,6 @@ for mass in range(len(args.m_gridsearch)):
                                                                                      args.transitions_gridsearch[transition]),
                               dirname_for_loading=args.dirname_for_loading,
                               tar_act_noise=args.tar_act_noise,
-                              threshold=args.threshold,
-                              noise=args.noise,
-                              scheduler=args.scheduler,
-                              automatically_stop=args.automatically_stop,
-                              success_threshold=args.success_threshold,
-                              save_force_signal=args.save_force_signal,
                               )
 
                 agent, eval_env = train.main()
