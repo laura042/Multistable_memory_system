@@ -45,8 +45,8 @@ def get_stop(training_file_path, threshold):
 
 class Train():
     def __init__(self, seed, put_seed, gpu, env_name, gamma, rb_size, tau, replay_start_size, minibatch_size, steps, eval_n_episodes,
-                 eval_interval, train_max_episode_len, path_to_save, path_for_loading, dirname_to_save, dirname_for_loading, tar_act_noise, threshold, noise, scheduler,
-                 automatically_stop, success_threshold, save_force_signal, wrong_keys=True, nb_of_neurons_layer_1=400, nb_of_neurons_layer_2=300):
+                 eval_interval, train_max_episode_len, path_to_save, path_for_loading, dirname_to_save, dirname_for_loading, tar_act_noise, threshold=None, noise=None, scheduler=None,
+                 automatically_stop=False, success_threshold=0.95, save_force_signal=False, wrong_keys=True, nb_of_neurons_layer_1=400, nb_of_neurons_layer_2=300):
         self.seed = seed
         self.put_seed = put_seed
         self.gpu = gpu
@@ -247,7 +247,7 @@ class Train():
 class Test_phase():
 
     def __init__(self, env_name, env_surname, n_steps, n_episodes, max_episode_len, add_simu_time, t_simu, file_name, path_to_save, dirname_to_save,
-                 path_for_loading, dirname_for_loading, c, init_state, target_state, save_obs):
+                 path_for_loading, dirname_for_loading, c, init_state, target_state, save_obs, wrong_keys=True):
         self.env_name = env_name
         self.env_surname = env_surname
         self.n_steps = n_steps
@@ -264,6 +264,7 @@ class Test_phase():
         self.init_state = init_state
         self.target_state = target_state
         self.save_obs = save_obs
+        self.wrong_keys = wrong_keys
 
     def make_env(self, test):
         env = gym.make(self.env_name)
@@ -468,7 +469,33 @@ class Test_phase():
             minibatch_size=100,
         )
 
-        if self.path_for_loading is not None:
+        if self.dirname_for_loading is not None and self.wrong_keys==True:
+            policy_weights = torch.load(os.path.join(self.path_for_loading, './{}/best/policy.pt'.format(self.dirname_for_loading)))
+            q_func_1_weights = torch.load(os.path.join(self.path_for_loading, './{}/best/q_func1.pt'.format(self.dirname_for_loading)))
+            q_func_2_weights = torch.load(os.path.join(self.path_for_loading, './{}/best/q_func2.pt'.format(self.dirname_for_loading)))
+            with torch.no_grad():
+                policy.fc1_policy.weight.copy_(policy_weights['0.weight'])
+                policy.fc1_policy.bias.copy_(policy_weights['0.bias'])
+                policy.fc2_policy.weight.copy_(policy_weights['2.weight'])
+                policy.fc2_policy.bias.copy_(policy_weights['2.bias'])
+                policy.fc3_policy.weight.copy_(policy_weights['4.weight'])
+                policy.fc3_policy.bias.copy_(policy_weights['4.bias'])
+
+                q_func_1.fc1_qfunc.weight.copy_(q_func_1_weights['1.weight'])
+                q_func_1.fc1_qfunc.bias.copy_(q_func_1_weights['1.bias'])
+                q_func_1.fc2_qfunc.weight.copy_(q_func_1_weights['3.weight'])
+                q_func_1.fc2_qfunc.bias.copy_(q_func_1_weights['3.bias'])
+                q_func_1.fc3_qfunc.weight.copy_(q_func_1_weights['5.weight'])
+                q_func_1.fc3_qfunc.bias.copy_(q_func_1_weights['5.bias'])
+
+                q_func_2.fc1_qfunc.weight.copy_(q_func_2_weights['1.weight'])
+                q_func_2.fc1_qfunc.bias.copy_(q_func_2_weights['1.bias'])
+                q_func_2.fc2_qfunc.weight.copy_(q_func_2_weights['3.weight'])
+                q_func_2.fc2_qfunc.bias.copy_(q_func_2_weights['3.bias'])
+                q_func_2.fc3_qfunc.weight.copy_(q_func_2_weights['5.weight'])
+                q_func_2.fc3_qfunc.bias.copy_(q_func_2_weights['5.bias'])
+
+        if self.path_for_loading is not None and self.wrong_keys==False:
             agent.load(os.path.join(self.path_for_loading, './{}/best'.format(self.dirname_for_loading)))
 
         eval_env = self.make_env(test=True)
@@ -479,8 +506,9 @@ class Test_phase():
 
 
 class Force_analysis():
-    def __init__(self, path_to_save, nb_of_tests, c_gridsearch, transition_name, path_for_fig, fig_name):
-        self.path_to_save = path_to_save
+    def __init__(self, path_for_loading, dirname_for_loading, nb_of_tests, c_gridsearch, transition_name, path_for_fig, fig_name):
+        self.path_for_loading = path_for_loading
+        self.dirname_for_loading = dirname_for_loading
         self.nb_of_tests = nb_of_tests
         self.c_gridsearch = c_gridsearch
         self.transition_name = transition_name
@@ -490,7 +518,7 @@ class Force_analysis():
     def get_force_array(self):
         force_signal = [[] for _ in self.c_gridsearch]
         for c_index in range(len(self.c_gridsearch)):
-            force_signal[c_index].append(np.loadtxt(os.path.join(self.path_to_save, './force_{}_{}_{}_1.npy.').format(int(self.c_gridsearch[c_index]), int(str(self.c_gridsearch[c_index]).split('.')[1]),
+            force_signal[c_index].append(np.loadtxt(os.path.join(self.path_for_loading, './{}/force_c_{}_{}_transition_{}_1.npy').format(self.dirname_for_loading, int(self.c_gridsearch[c_index]), int(str(self.c_gridsearch[c_index]).split('.')[1]),
                                                                                                                       self.transition_name)))
         force_signal = np.array(force_signal)
         return force_signal
@@ -498,8 +526,8 @@ class Force_analysis():
     def get_max_shape(self, force_signal):
         shape = 0
         for i in range(force_signal.shape[0]):
-            if force_signal[i].shape[0] > shape:
-                shape = force_signal[i].shape[0]
+            if force_signal[i][0].shape[0] > shape:
+                shape = force_signal[i][0].shape[0]
         return shape
 
     def steps(self, max_shape):
@@ -516,30 +544,31 @@ class Force_analysis():
         sig = []
         shape = 1000
         for i in range(self.nb_of_tests):
-            sig_path = os.path.join(self.path_to_save, './force_{}_{}_{}_{}.npy.').format(int(self.c_gridsearch[c_index]), int(str(self.c_gridsearch[c_index]).split('.')[1]),
+            sig_path = os.path.join(self.path_for_loading, './{}/force_c_{}_{}_transition_{}_{}.npy').format(self.dirname_for_loading, int(self.c_gridsearch[c_index]), int(str(self.c_gridsearch[c_index]).split('.')[1]),
                                                                                           self.transition_name, i+1)
             if np.loadtxt(sig_path).shape[0] < shape:
                 shape = np.loadtxt(sig_path).shape[0]
         for i in range(self.nb_of_tests):
-            sig_path = os.path.join(self.path_to_save, './force_{}_{}_{}_{}.npy.').format(int(self.c_gridsearch[c_index]), int(str(self.c_gridsearch[c_index]).split('.')[1]),
+            sig_path = os.path.join(self.path_for_loading, './{}/force_c_{}_{}_transition_{}_{}.npy').format(self.dirname_for_loading, int(self.c_gridsearch[c_index]), int(str(self.c_gridsearch[c_index]).split('.')[1]),
                                                                                           self.transition_name, i+1)
             sig.append(np.loadtxt(sig_path)[:shape])
+        sig = np.array(sig)
         return np.mean(sig, axis=0)
 
     def get_mean_force_array(self):
         force_signal = [[] for _ in self.c_gridsearch]
         for c_index in range(len(self.c_gridsearch)):
-            force_signal[c_index].append(self.mean_sig(c_index)),
+            force_signal[c_index].append(self.mean_sig(c_index))
         force_signal = np.array(force_signal)
         return force_signal
 
     def uniform_shape(self, force_signal, max_shape):
         force_signal_uniform_shape = np.empty((force_signal.shape[0], max_shape))
         for i in range(force_signal.shape[0]):
-            if force_signal[i].shape[0] < max_shape:
-                force_signal_uniform_shape[i, :] = np.append(force_signal[i], np.zeros(max_shape - force_signal[i].shape[0]) + np.nan)
+            if force_signal[i][0].shape[0] < max_shape:
+                force_signal_uniform_shape[i, :] = np.append(force_signal[i][0], np.zeros(max_shape - force_signal[i][0].shape[0]) + np.nan)
             else:
-                force_signal_uniform_shape[i, :] = force_signal[i]
+                force_signal_uniform_shape[i, :] = force_signal[i][0]
         return force_signal_uniform_shape
 
     def plot(self, data):
@@ -581,23 +610,26 @@ class Force_analysis():
 
 
 class Injected_energy_analysis():
-    def __init__(self, path_to_save, nb_of_tests, c_gridsearch, transition_name, path_for_fig, fig_name):
-        self.path_to_save = path_to_save
+    def __init__(self, path_for_loading, dirname_for_loading, nb_of_tests, c_gridsearch, nb_ressort, transition_name, path_for_fig, fig_name):
+        self.path_for_loading = path_for_loading
+        self.dirname_for_loading = dirname_for_loading
         self.nb_of_tests = nb_of_tests
         self.c_gridsearch = c_gridsearch
+        self.nb_ressort = nb_ressort
         self.transition_name = transition_name
         self.path_for_fig = path_for_fig
         self.fig_name = fig_name
 
     def get_force_pos_array(self):
         force_signal = [[] for _ in self.c_gridsearch]
-        positions = [[] for _ in self.c_gridsearch]
+        positions = [[[] for _ in range(self.nb_ressort)] for _ in self.c_gridsearch]
         for c_index in range(len(self.c_gridsearch)):
             for idx in range(self.nb_of_tests):
-                force_signal[c_index].append(np.loadtxt(os.path.join(self.path_to_save, './force_{}_{}_{}_{}.npy.').format(int(self.c_gridsearch[c_index]), int(str(self.c_gridsearch[c_index]).split('.')[1]),
+                force_signal[c_index].append(np.loadtxt(os.path.join(self.path_for_loading, './{}/force_c_{}_{}_transition_{}_{}.npy').format(self.dirname_for_loading, int(self.c_gridsearch[c_index]), int(str(self.c_gridsearch[c_index]).split('.')[1]),
                                                                                                                            self.transition_name, idx+1)))
-                positions[c_index].append(np.loadtxt(os.path.join(self.path_to_save, './pos_{}_{}_{}_{}.npy.').format(int(self.c_gridsearch[c_index]), int(str(self.c_gridsearch[c_index]).split('.')[1]),
-                                                                                                                      self.transition_name, idx+1)))
+                for spring_idx in range(self.nb_ressort):
+                    positions[c_index][spring_idx].append(np.loadtxt(os.path.join(self.path_for_loading, './{}/pos_c_{}_{}_transition_{}_{}.npy').format(self.dirname_for_loading, int(self.c_gridsearch[c_index]), int(str(self.c_gridsearch[c_index]).split('.')[1]),
+                                                                                                                                             self.transition_name, idx+1))[spring_idx])
         force_signal = np.array(force_signal)
         positions = np.array(positions)
         return force_signal, positions
@@ -620,9 +652,17 @@ class Injected_energy_analysis():
             if force_signal[idx].shape[0] < shape:
                 shape = force_signal[idx].shape[0]
         for idx in range(self.nb_of_tests):
-            diff_pos = np.diff(positions[idx], axis=1)
-            elongation = diff_pos[-1]
-            injected_energy.append(force_signal[idx][:shape] * elongation[:shape])
+            if self.nb_ressort==1:
+                pos_tmp = positions[:, idx][0]
+                injected_energy.append(force_signal[idx][:shape] * pos_tmp[:shape])
+            else:
+                shape_tmp = positions[:, idx][0].shape[0]
+                pos_tmp = np.concatenate((positions[:, idx][0], positions[:, idx][1])).reshape(-1, shape_tmp)
+                for idx_2 in range(self.nb_ressort-2):
+                    pos_tmp = np.concatenate((pos_tmp.flatten(), positions[:, idx][idx_2+2])).reshape(-1, shape_tmp)
+                diff_pos = np.diff(pos_tmp, axis=1)
+                elongation = diff_pos[-1]
+                injected_energy.append(force_signal[idx][:shape] * elongation[:shape])
         return np.mean(injected_energy, axis=0)
 
     def get_mat_energy(self, force_signal, positions):
@@ -670,7 +710,7 @@ class Injected_energy_analysis():
                           height=600,
                           width=600,
                           )
-        fig.write_image(os.path.join(self.path_for_fig, './{}.pdf'.format(self.fig_name)))
+        fig.write_image(os.path.join(self.path_for_fig, './{}_transition_{}.pdf'.format(self.fig_name, self.transition_name)))
 
     def main(self):
         force_signal, positions = self.get_force_pos_array()
