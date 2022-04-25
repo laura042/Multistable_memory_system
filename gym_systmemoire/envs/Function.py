@@ -83,9 +83,9 @@ class Ressort():
 class EQD_mouvement():
 #Can change the app point of the force
     def __init__(self, ressorts, masse, c_frot, change_app_point=False, nb_of_steps=None, threshold=None):
-        # init avec ressort une liste des ressorts, masse une liste des masses entre les ressorts
-        # c_frot une liste des coefficients de frottement pour chaque masse
-        # et X0 les conditions initiales.
+        # init with ressort a list of spring, masse a list of masses between the springs
+        # c_frot a list of friction coefficients for every mass
+        # X0 the initial conditions.
         self.ressorts = ressorts
         self.masse = np.asarray(masse)
         self.c_frot = np.asarray(c_frot)
@@ -97,8 +97,7 @@ class EQD_mouvement():
         self.t_sol = None
 
     def force_comp(self, x, force):
-        # Calcule les forces F des ressorts pour des masses à des positions x, ainsi que la
-        # résultante pour chaque masse
+        # Compute the forces F of the springs for masses at position x
         dx = np.diff(np.append(0, x))
         F = np.asarray([self.ressorts[k].force(dx[k]) for k in range(len(dx))])
         if self.change_app_point==True:
@@ -122,7 +121,7 @@ class EQD_mouvement():
         return diss_arg
 
     def solve_EQM(self, force, X0, t_max, n_p=1000):
-        # Resolution numérique de l'équation du mouvement EQM pour toutes les masses.
+        # Numerical resolution of EQM for every mass
         self.t_sol = np.linspace(0, t_max, n_p)
 
         def EQM(t, X):
@@ -134,14 +133,12 @@ class EQD_mouvement():
         self.X_sol = np.transpose(solve_EQD(EQM, X0, self.t_sol))
 
     def plot_evol_pos(self):
-        # Resolution numérique de l'équation du mouvement EQM pour toutes les masses.
         figure, ax = belleFigure('time', 'Pos')
         for k, x in enumerate(self.X_sol[:self.n, :]):
             plt.plot(self.t_sol, x, '.-', label='Masse n° {}'.format(k))
         plt.legend()
 
     def plot_evol_diff_pos(self):
-        # Resolution numérique de l'équation du mouvement EQM pour toutes les masses.
         dX_sol = np.diff(np.transpose(np.insert(self.X_sol[:self.n, :], 0, 0, axis=0)))
         figure, ax = belleFigure('time', 'DPos')
         for k, x in enumerate(np.transpose(dX_sol)):
