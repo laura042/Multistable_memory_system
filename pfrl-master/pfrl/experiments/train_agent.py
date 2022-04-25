@@ -71,16 +71,15 @@ def train_agent(
     actions.append(agent.act(obs))
     try:
         while t < steps:
-            #add noise to observation
+            #add noise to observation, there must be no seeds
             if noise is not None:
                 obs[:-env.nb_ressort] = obs[:-env.nb_ressort] + noise
-            # a_t
+            #to avoid abrupt changes in force
             if threshold is not None:
                 action = min(max(agent.act(obs), actions[-1] - threshold), threshold + actions[-1])
             else:
                 action = agent.act(obs)
             actions.append(action)
-            # o_{t+1}, r_{t+1}
             obs, r, done, info = env.step(action)
             t += 1
             episode_r += r
@@ -151,7 +150,6 @@ def train_agent(
 
     # Save the final model
     save_agent(agent, t, outdir, logger, suffix="_finish")
-    #torch.save(reward_history, 'reward_hitory')
     return eval_stats_history
 
 
