@@ -9,7 +9,7 @@ from Functions import Test_phase
 parser = argparse.ArgumentParser()
 parser.add_argument("--outdir", type=str, default="results",help=("Directory path to save output files." " If it does not exist, it will be created."),)
 parser.add_argument("--seed", type=int, default=0, help="Random seed [0, 2 ** 32]")
-parser.add_argument("--gpu", type=int, default=0, help="GPU name")
+parser.add_argument("--gpu", type=int, default=0, help="GPU name. -1 if no GPU.")
 parser.add_argument("--env_name", type=str, default='env-3M-v0', help="environment name")
 parser.add_argument("--env_surname", type=str, default='3M-v0', help="environment name")
 parser.add_argument("--n_steps", type=int, default=None, help="total number of steps. If None, the number of episodes put will be taken into account.")
@@ -34,7 +34,8 @@ print("Output files are saved in {}".format(args.outdir))
 
 for transition in range(len(args.transitions_gridsearch)):
 
-    test_phase = Test_phase(env_name=args.env_name,
+    test_phase = Test_phase(gpu=args.gpu,
+                            env_name=args.env_name,
                             env_surname=args.env_surname,
                             n_steps=args.n_steps,
                             n_episodes=args.n_episodes,
