@@ -63,8 +63,8 @@ def get_elongation(positions):
 
 positions = np.loadtxt(os.path.join(args.path_for_loading, './{}/pos_{}_transition_{}_{}.npy'.format(args.dirname_for_loading, 'c_{}_{}'.format(int(args.c), int(str(args.c).split('.')[1])), args.transition, args.num_fig)))
 
-nb_ressort = np.size(Config_env.exp['{}'.format(args.env_surname)]['system'])
-eq_positions = np.array([Config_env.exp['{}'.format(args.env_surname)]['system'][k].x_e for k in range(nb_ressort)])
+nb_ressort = np.size(Config_env.exp[args.env_surname]['system'])
+eq_positions = np.array([Config_env.exp[args.env_surname]['system'][k].x_e for k in range(nb_ressort)])
 goal, notgoal = goalbin_to_goalpos(eq_positions, args.goal_bin, args.not_goal_bin, nb_ressort)
 
 

@@ -102,16 +102,16 @@ for mass in range(len(args.m_gridsearch)):
         for transition in range(len(args.transitions_gridsearch)):
             for dissipation in range(len(args.c_gridsearch)):
 
-                nb_ressort = np.size(Config_env.exp['{}'.format(args.env_surname)]['system'])
-                Config_env.exp['{}'.format(args.env_surname)]['c'] = args.c_gridsearch[dissipation]
-                Config_env.exp['{}'.format(args.env_surname)]['masse'] = np.array([args.m_gridsearch[mass], args.m_gridsearch[mass], args.m_gridsearch[mass]])
-                Config_env.exp['{}'.format(args.env_surname)]['max_f'] = args.f_gridsearch[force_max]
-                Config_env.exp['{}'.format(args.env_surname)]['c'] = args.c_gridsearch[dissipation]
-                Config_env.exp['{}'.format(args.env_surname)]['goal_state'] = args.target_gridsearch[transition]
-                eq_positions = np.array([Config_env.exp['{}'.format(args.env_surname)]['system'][k].x_e for k in range(nb_ressort)])
+                nb_ressort = np.size(Config_env.exp[args.env_surname]['system'])
+                Config_env.exp[args.env_surname]['c'] = args.c_gridsearch[dissipation]
+                Config_env.exp[args.env_surname]['masse'] = np.array([args.m_gridsearch[mass], args.m_gridsearch[mass], args.m_gridsearch[mass]])
+                Config_env.exp[args.env_surname]['max_f'] = args.f_gridsearch[force_max]
+                Config_env.exp[args.env_surname]['c'] = args.c_gridsearch[dissipation]
+                Config_env.exp[args.env_surname]['goal_state'] = args.target_gridsearch[transition]
+                eq_positions = np.array([Config_env.exp[args.env_surname]['system'][k].x_e for k in range(nb_ressort)])
 
                 init_pos = goalbin_to_goalpos(eq_positions, args.init_gridsearch[transition], nb_ressort)
-                Config_env.exp['{}'.format(args.env_surname)]['ini_pos'] = init_pos
+                Config_env.exp[args.env_surname]['ini_pos'] = init_pos
                 print('init_pos : ', init_pos)
 
 

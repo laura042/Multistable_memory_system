@@ -30,11 +30,11 @@ for transition in range(len(args.transitions_gridsearch)):
     for c in args.c_gridsearch:
 
         if args.pos_noise is not None:
-            Config_env.exp['{}'.format(args.env_surname)]['add_gaussian_noise_to_ini_pos'] = True
-            Config_env.exp['{}'.format(args.env_surname)]['pos_noise'] = args.pos_noise
+            Config_env.exp[args.env_surname]['add_gaussian_noise_to_ini_pos'] = True
+            Config_env.exp[args.env_surname]['pos_noise'] = args.pos_noise
         if args.vel_noise is not None:
-            Config_env.exp['{}'.format(args.env_surname)]['start_with_gaussian_vel'] = True
-            Config_env.exp['{}'.format(args.env_surname)]['vel_noise'] = args.vel_noise
+            Config_env.exp[args.env_surname]['start_with_gaussian_vel'] = True
+            Config_env.exp[args.env_surname]['vel_noise'] = args.vel_noise
 
         test_phase = Test_phase(gpu=args.gpu,
                                 env_name=args.env_name,

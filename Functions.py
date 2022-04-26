@@ -381,12 +381,12 @@ class Test_phase():
         return scores
 
     def main(self):
-        nb_ressort = np.size(Config_env.exp['{}'.format(self.env_surname)]['system'])
-        eq_positions = np.array([Config_env.exp['{}'.format(self.env_surname)]['system'][k].x_e for k in range(nb_ressort)])
-        Config_env.exp['{}'.format(self.env_surname)]['c'] = self.c
-        Config_env.exp['{}'.format(self.env_surname)]['goal_state'] = self.target_state
+        nb_ressort = np.size(Config_env.exp[self.env_surname]['system'])
+        eq_positions = np.array([Config_env.exp[self.env_surname]['system'][k].x_e for k in range(nb_ressort)])
+        Config_env.exp[self.env_surname]['c'] = self.c
+        Config_env.exp[self.env_surname]['goal_state'] = self.target_state
         init_pos = self.goalbin_to_goalpos(eq_positions, self.init_state, nb_ressort)
-        Config_env.exp['{}'.format(self.env_surname)]['ini_pos'] = init_pos
+        Config_env.exp[self.env_surname]['ini_pos'] = init_pos
 
         env = self.make_env(test=False)
 
