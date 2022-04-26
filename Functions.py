@@ -9,7 +9,7 @@ import gym
 import gym_systmemoire
 import gym_systmemoire.envs
 import pandas as pd
-import plotly.express as px
+import plotly.graph_objects as go
 import Config_env
 
 assert torch.cuda.is_available()
@@ -246,8 +246,9 @@ class Train():
 
 class Test_phase():
 
-    def __init__(self, env_name, env_surname, n_steps, n_episodes, max_episode_len, add_simu_time, t_simu, file_name, path_to_save, dirname_to_save,
+    def __init__(self, gpu, env_name, env_surname, n_steps, n_episodes, max_episode_len, add_simu_time, t_simu, file_name, path_to_save, dirname_to_save,
                  path_for_loading, dirname_for_loading, c, init_state, target_state, save_obs, wrong_keys=True):
+        self.gpu = gpu
         self.env_name = env_name
         self.env_surname = env_surname
         self.n_steps = n_steps
@@ -350,13 +351,13 @@ class Test_phase():
                             vel[_].append(obs[_ + env.nb_ressort])
 
                 episode_len = np.array([episode_len])
+                os.makedirs(os.path.join(self.path_to_save, './{}'.format(self.dirname_to_save)), exist_ok=True)
                 with open(os.path.join(self.path_to_save, './{}/nb_of_steps.npy'.format(self.dirname_to_save)), 'a') as f:
                     np.savetxt(f, episode_len)
                 positions = np.array(pos)
                 velocities = np.array(vel)
                 force = np.array(actions)
                 if self.save_obs==True:
-                    os.makedirs(os.path.join(self.path_to_save, './{}'.format(self.dirname_to_save)), exist_ok=True)
                     with open(os.path.join(self.path_to_save, './{}/pos_{}_{}.npy'.format(self.dirname_to_save, self.file_name, len(scores))), 'w') as f:
                         np.savetxt(f, positions)
                     with open(os.path.join(self.path_to_save, './{}/vel_{}_{}.npy'.format(self.dirname_to_save, self.file_name, len(scores))), 'w') as f:
@@ -465,7 +466,7 @@ class Test_phase():
             soft_update_tau=5e-3,
             explorer=explorer,
             replay_start_size=10000,
-            gpu=0,
+            gpu=self.gpu,
             minibatch_size=100,
         )
 
@@ -572,11 +573,10 @@ class Force_analysis():
         return force_signal_uniform_shape
 
     def plot(self, data):
-        fig = px.imshow(data, zmin=-1., zmax=1.)
+        fig = go.Figure(data=go.Heatmap(z=data, colorscale='RdBu', zmin=-1., zmax=1.))
         fig.update_yaxes(autorange=True)
         fig.update_yaxes(tickfont_size=32)
         fig.update_xaxes(tickfont_size=32)
-        fig.update_yaxes(type='category')
         fig.update_layout(xaxis_title='Number of steps',
                           yaxis_title='Dissipation (Kg/s)',
                           title=dict(text='Force signal',
@@ -687,11 +687,10 @@ class Injected_energy_analysis():
         return data
 
     def plot(self, data):
-        fig = px.imshow(data, zmin=-1., zmax=1.)
+        fig = go.Figure(data=go.Heatmap(z=data, colorscale='RdBu', zmin=-0.01, zmax=0.01))
         fig.update_yaxes(autorange=True)
         fig.update_yaxes(tickfont_size=32)
         fig.update_xaxes(tickfont_size=32)
-        fig.update_yaxes(type='category')
         fig.update_layout(xaxis_title='Number of steps',
                           yaxis_title='Dissipation (Kg/s)',
                           title=dict(text='Injected energy',
