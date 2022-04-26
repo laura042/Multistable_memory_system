@@ -4,7 +4,7 @@ The aim of this project is to simulate a 1D multistable chain composed of couple
 it using a Reinforcement Learning agent, Twin-Delayed DDPG. We used the TD3 agent implemented here https://github.com/pfnet/pfrl.
 This repository was used to produce the results of the article "Dynamically writing coupled memories using a reinforcement learning agent, meeting physical bounds".
 
-# Description of the repository
+### Description of the repository
 
 The repertory "gym_systmemoire" contains the environment simulating the multisatble chain. 
 The file Config_env.py is used to configure the environment we want to use.
