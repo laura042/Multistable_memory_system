@@ -10,11 +10,11 @@ from matplotlib import font_manager as fm
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--path_for_loading", type=str, default=None, help="path for loading results")
-parser.add_argument("--dirname_for_loading", type=str, default='c_{}_{]', help="directory name for loading results")
+parser.add_argument("--dirname_for_loading", type=str, default=None, help="directory name for loading results")
 parser.add_argument("--train_max_episode_len", type=int, default=200, help="length of an episode")
-parser.add_argument("--path_for_saving_fig", tyoe=str, default=None)
+parser.add_argument("--path_for_saving_fig", type=str, default=None)
 parser.add_argument("--fig_name", type=str, default=None)
-parser.add_argument("--path_for_font", typr=str, default=None)
+parser.add_argument("--path_for_font", type=str, default=None)
 args = parser.parse_args()
 
 ### FONT FOR MATPLOTLIB ###
