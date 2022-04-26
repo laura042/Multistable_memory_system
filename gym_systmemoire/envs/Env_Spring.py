@@ -10,12 +10,11 @@ from gym_systmemoire.envs import Function
 
 class Couplage_n_Env_Spring(gym.Env):
     """
-        Cet environnement est constitué de quatre masses reliées entre elles par un ressort dans un double puits de potentiel.
-        La première masse est attachée à un point fixe via l'intermédiaire d'un ressort identique au premier ressort décrit.
-        Le but est de mettre un système masse-ressort dans un de ses états d'équilibre (que l'on choisit entre x1 et x3).
-        Nous utilisons ici scipy.integrate.solve_ivp afin de résoudre le système.
+        This environment describes a one-dimensional multistable chain composed of coupled bistable spring-mass units.
+        The first spring of the chain is attached to a fixed wall and an external force is applied at the end of the chain.
+        The aim is to put the system in a chosen equilibrium configuration by choosing a sequence of external forces.
 
-        """
+    """
 
     metadata = {
         'render.modes': ['human', 'rgb_array'],
@@ -113,7 +112,7 @@ class Couplage_n_Env_Spring(gym.Env):
     ###--------------------------------------------###
     def _get_ob(self):
         s = self.state
-        return s[:]  # -self.nb_ressort]
+        return s[:]
 
     ###--------------------------------------------###
     def bin_to_pos(self, binstate, eq_pos):
@@ -227,7 +226,7 @@ class Couplage_n_Env_Spring(gym.Env):
 
     ###--------------------------------------------###
     def step(self, action):
-        ''' n pas dasn un épisode'''
+        ''' n steps in an episode '''
 
         force = min(max(action[0], -self.max_f), self.max_f)
 
