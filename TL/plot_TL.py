@@ -1,6 +1,4 @@
 import argparse
-import sys
-import os
 
 import numpy as np
 
@@ -13,11 +11,11 @@ from matplotlib import font_manager as fm
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--path_for_loading", type=str, default=None, help="path for loading results and models")
-parser.add_argument("--dirname_for_loading_TL", type=str, default=None, help="directory name for loading results with TL")
-parser.add_argument("--dirname_for_loading", type=str, default='c_{}_{]', help="directory name for loading results without TL")
+parser.add_argument("--dirname_for_loading_TL", type=str, default='c_{}_{}', help="directory name for loading results with TL")
+parser.add_argument("--dirname_for_loading", type=str, default=None, help="directory name for loading results without TL")
 parser.add_argument("--threshold", typr=float, default=0.8, help="threshold to define learning time")
-parser.add_argument("--c_gridsearch_transfer", type=np.array, default=[0., 0.1, 0.2, 0.3, 0.6, 1., 3., 4., 5., 6., 7., 8., 9., 10.], help="dissipation gridsearch")
-parser.add_argument("--c_gridsearch", type=np.array, default=[0., 0.1, 0.2, 0.3, 0.6, 1., 2., 3., 4., 5., 6., 7., 8., 9., 10.], help="dissipation gridsearch")
+parser.add_argument("--c_gridsearch_transfer", type=np.array, default=[0., 0.1, 0.2, 0.3, 0.6, 1., 3., 4., 5., 6., 7., 8., 9., 10.], help="dissipation gridsearch for TL")
+parser.add_argument("--c_gridsearch", type=np.array, default=[0., 0.1, 0.2, 0.3, 0.6, 1., 2., 3., 4., 5., 6., 7.], help="dissipation gridsearch")
 parser.add_argument("--path_for_saving_fig", tyoe=str, default=None)
 parser.add_argument("--fig_name", type=str, default='Transfer_learning')
 parser.add_argument("--path_for_font", typr=str, default=None)
