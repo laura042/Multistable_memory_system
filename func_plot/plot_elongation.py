@@ -1,6 +1,8 @@
 import argparse
 
 import numpy as np
+import gym_systmemoire
+import gym_systmemoire.envs
 
 import Config_env
 
@@ -11,17 +13,17 @@ from matplotlib import font_manager as fm
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--path_for_loading", type=str, default=None, help="path for loading positions")
-parser.add_argument("--dirname_for_loading", type=str, default='c_{}_{]', help="directory name for loading positions")
+parser.add_argument("--dirname_for_loading", type=str, default=None, help="directory name for loading positions")
 parser.add_argument("--env_name", type=str, default='env-3M-v0', help="environment name")
 parser.add_argument("--env_surname", type=str, default='3M-v0', help="environment name")
 parser.add_argument("--transition", type=str, default='111_to_001')
 parser.add_argument("--goal_bin", default=[0, 0, 1], help="target state")
 parser.add_argument("--not_goal_bin", default=[1, 1, 0])
-parser.add_argument("--c", type=float, default=2.1)
+parser.add_argument("--c", type=float, default=2.)
 parser.add_argument("--num_fig", type=int, default=1)
-parser.add_argument("--path_for_saving_fig", tyoe=str, default=None)
+parser.add_argument("--path_for_saving_fig", type=str, default=None)
 parser.add_argument("--fig_name", type=str, default=None)
-parser.add_argument("--path_for_font", typr=str, default=None)
+parser.add_argument("--path_for_font", type=str, default=None)
 args = parser.parse_args()
 
 ### FONT FOR MATPLOTLIB ###
@@ -59,7 +61,7 @@ def get_elongation(positions):
     return rel_pos
 
 
-positions = np.loadtxt(os.path.join(args.path_for_loading, './{}/pos_{}_{}_{}.npy'.format(args.dirname_for_loading, args.transition, 'c_{}_{}'.format(int(args.c), int(str(args.c).split('.')[1])), args.num_fig)))
+positions = np.loadtxt(os.path.join(args.path_for_loading, './{}/pos_{}_transition_{}_{}.npy'.format(args.dirname_for_loading, 'c_{}_{}'.format(int(args.c), int(str(args.c).split('.')[1])), args.transition, args.num_fig)))
 
 nb_ressort = np.size(Config_env.exp['{}'.format(args.env_surname)]['system'])
 eq_positions = np.array([Config_env.exp['{}'.format(args.env_surname)]['system'][k].x_e for k in range(nb_ressort)])
@@ -98,15 +100,15 @@ if nb_ressort == 1:
     plt.savefig(os.path.join(args.path_for_saving_fig, './elongations_{}__{}.pdf'.format(args.transition, args.fig_name)), format='pdf')
 
 else:
-    elongations = get_elongation(positions, nb_ressort)
+    elongations = get_elongation(positions)
     steps = np.linspace(0, positions.shape[1], positions.shape[1])
 
     goal_plt = np.empty((len(goal), positions.shape[1]))
     notgoal_plt = np.empty((len(notgoal), positions.shape[1]))
 
     for i in range(len(goal)):
-        goal_plt[i] = [goal[i] for k in range(positions.shape[0])]
-        notgoal_plt[i] = [notgoal[i] for k in range(positions.shape[0])]
+        goal_plt[i] = [goal[i] for k in range(positions.shape[1])]
+        notgoal_plt[i] = [notgoal[i] for k in range(positions.shape[1])]
 
     fig, axes = plt.subplots(nrows=nb_ressort, sharex='all', figsize=(9., 6.))
     for i in range(nb_ressort):
