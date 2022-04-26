@@ -20,8 +20,8 @@ def belleFigure(ax1, ax2, nfigure=None):
 
 
 def plot_paysage(func, val_lim, x_name, y_name, n=100, marq='.-'):
-    # Retourne le paysage de func entre les valeurs limites val_lim en n points.
-    # x_name et y_name donnent le nom des axes x et y. marq le type de marqueur.
+    # Returns the landscape of func between the limit values val_lim with n points.
+    # x_name and y_name give the name of the x and y axes. marq is the marker type.
     x_min, x_max = val_lim
     x = np.linspace(x_min, x_max, n)
     y = func(x)
