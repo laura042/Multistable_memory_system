@@ -11,9 +11,9 @@ from matplotlib import font_manager as fm
 parser = argparse.ArgumentParser()
 parser.add_argument("--path_for_loading", type=str, default=None, help="path for loading results")
 parser.add_argument("--dirname_for_loading", type=str, default='m_{}_{}_Fmax_{}_{}_c_{}_{}_{}', help="directory for loading results")
-parser.add_argument("--path_for_saving_fig", tyoe=str, default=None)
-parser.add_argument("--fig_name", type=str, default='Transfer_learning')
-parser.add_argument("--path_for_font", typr=str, default=None)
+parser.add_argument("--path_for_saving_fig", type=str, default=None)
+parser.add_argument("--fig_name", type=str, default=None)
+parser.add_argument("--path_for_font", type=str, default=None)
 args = parser.parse_args()
 
 ### FONT FOR MATPLOTLIB ###
@@ -164,12 +164,12 @@ def load(transition, mass, Fmax, dict_c_gridsearch, force):
         min_nb_of_steps_array = []
         for dissipation in range(dict_c_gridsearch['{}'.format(args.f_gridsearch[Fmax])].shape[0]):
             nb_of_steps = np.loadtxt(os.path.join(args.path_for_loading, './{}/nb_of_steps.npy'.format(args.dirname_for_loading.format(int(m_gridsearch_force[mass]),
-                                                                                                                       (str(m_gridsearch_force[mass]).split('.')[1]),
-                                                                                                                       int(Fmax_gridsearch_force[Fmax]),
-                                                                                                                       (str(Fmax_gridsearch_force[Fmax]).split('.')[1]),
-                                                                                                                       int(dict_c_gridsearch['{}'.format(Fmax_gridsearch_force[Fmax])][dissipation]),
-                                                                                                                       (str(dict_c_gridsearch['{}'.format(Fmax_gridsearch_force[Fmax])][dissipation]).split('.')[1]),
-                                                                                                                       transition))))
+                                                                                                       (str(m_gridsearch_force[mass]).split('.')[1]),
+                                                                                                       int(Fmax_gridsearch_force[Fmax]),
+                                                                                                       (str(Fmax_gridsearch_force[Fmax]).split('.')[1]),
+                                                                                                       int(dict_c_gridsearch['{}'.format(Fmax_gridsearch_force[Fmax])][dissipation]),
+                                                                                                       (str(dict_c_gridsearch['{}'.format(Fmax_gridsearch_force[Fmax])][dissipation]).split('.')[1]),
+                                                                                                       transition))))
             min_nb_of_steps = np.min(nb_of_steps)
             min_nb_of_steps_array.append(min_nb_of_steps)
         # ARRAY OF MIN NUMBER OF STEPS FOR EVERY C AT TRANSITION, FMAX, M FIXED
