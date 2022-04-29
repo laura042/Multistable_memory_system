@@ -228,6 +228,8 @@ class Couplage_n_Env_Spring(gym.Env):
     def step(self, action):
         ''' n steps in an episode '''
 
+        self.nb_of_steps += 1
+
         force = min(max(action[0], -self.max_f), self.max_f)
 
         eqd_syst = Function.EQD_mouvement(self.system, self.masse, self.c * np.ones(self.nb_ressort), self.change_app_point,
