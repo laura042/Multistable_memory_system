@@ -15,6 +15,8 @@ the learned models.
 The repertory [TL](TL) is used to do Transfer Learning from a regime to others by varying the friction coefficient (see fig. 2 b) of the article).
 The repertory [two_internal_time_scales](two_internal_time_scales) is used to generate the data of fig. 3 and the repertory [scaling_analysis](scaling_analysis) is used to generate the 
 data of fig. 4.
+The repertory [func_plot](func_plot) contains scripts to plot the [learning dynamics](func_plot/plot_success_rate.py), the [force signal](func_plot/plot_force_signal.py)
+and the [elongations of each mass](func_plot/plot_elongation.py).
 
 
 ### Installation
@@ -28,3 +30,47 @@ PFRL can be installed using :
 `cd pfrl-master`
 
 `python setup.py install`
+
+### Running
+
+To train a new model :
+
+`python3 Train_phase.py [options]`
+
+If training a new model from an already pretrained model [c_2_0](results/c_2_0): 
+
+`python3 Train_phase.py --path_for_loading "results/c_2_0"`
+
+To test the model : 
+
+`python3 Test_phase.py [options]`
+
+To reproduce the results of Fig. 2 b : 
+
+`cd TL`
+
+`python3 generate_data.py --toward_overdamped True`
+
+`python3 generate_data.py --toward_overdamped False`
+
+`python3 plot_TL.py [options]`
+
+To reproduce the results of Fig. 3 : 
+
+`cd two_internal_time_scales`
+
+`python3 generate_data.py [options]`
+
+`python3 force_signal_analysis.py [options]`
+
+`python3 injected_energy_analysis.py [options]`
+
+To reproduce the results of Fig. 4 :
+
+`cd scaling_analysis`
+
+`python3 generate_data.py [options]`
+
+`python3 plot_scaling.py [options]`
+
+
