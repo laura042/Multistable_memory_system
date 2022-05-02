@@ -1,8 +1,5 @@
 import argparse
 import sys
-import os
-
-import numpy as np
 
 from pfrl import experiments
 
@@ -33,20 +30,26 @@ parser.add_argument("--tar_act_noise", type=float, default=0.5, help="maximum ta
 parser.add_argument("--wrong_keys", type=bool, default=False, help="wrong_keys is True only if the loaded model does not have the same keys as the used model. Put False here.")
 parser.add_argument("--c_gridsearch_overdamped", default=[2., 3., 4., 5., 6., 7., 8., 9., 10.], help="dissipation gridsearch toward the overdamped regime")
 parser.add_argument("--c_gridsearch_inertial", default=[2., 1., 0.6, 0.3, 0.2, 0.1, 0.], help="dissipation gridsearch toward the inertial regime")
+parser.add_argument("--toward_overdamped", type=bool, default=True, help="True if doing TL toward the overdamped regime. If false TL is done toward the inertial regime.")
 args = parser.parse_args()
 
 
 args.outdir = experiments.prepare_output_dir(args, args.outdir, argv=sys.argv)
 print("Output files are saved in {}".format(args.outdir))
 
-for dissipation in range(len(args.c_gridsearch_overdamped)):
+if args.toward_overdamped==True:
+    c_gridsearch = args.c_gridsearch_overdamped
+else:
+    c_gridsearch = args.c_gridsearch_inertial
 
-    Config_env.exp[args.env_surname]['c'] = args.c_gridsearch_overdamped[dissipation]
+for dissipation in range(len(args.c_gridsearch)):
+
+    Config_env.exp[args.env_surname]['c'] = args.c_gridsearch[dissipation]
 
     if dissipation==0:
         dirname_for_loading = None
     else:
-        dirname_for_loading = args.dirname.format(int(args.c_gridsearch_overdamped[dissipation-1]), int(str(args.c_gridsearch_overdamped[dissipation-1]).split('.')[1]))
+        dirname_for_loading = args.dirname.format(int(args.c_gridsearch[dissipation-1]), int(str(args.c_gridsearch[dissipation-1]).split('.')[1]))
 
     train = Train(seed=args.seed,
                   put_seed=args.put_seed,
@@ -63,7 +66,7 @@ for dissipation in range(len(args.c_gridsearch_overdamped)):
                   train_max_episode_len=args.train_max_episode_len,
                   path_to_save=args.path_to_save,
                   path_for_loading=args.path_for_loading,
-                  dirname_to_save=args.dirname.format(int(args.c_gridsearch_overdamped[dissipation]), int(str(args.c_gridsearch_overdamped[dissipation]).split('.')[1])),
+                  dirname_to_save=args.dirname.format(int(args.c_gridsearch[dissipation]), int(str(args.c_gridsearch[dissipation]).split('.')[1])),
                   dirname_for_loading=dirname_for_loading,
                   tar_act_noise=args.tar_act_noise,
                   wrong_keys=args.wrong_keys,
