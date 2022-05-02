@@ -1,7 +1,5 @@
 import argparse
 
-import numpy as np
-
 from Functions import Force_analysis
 
 parser = argparse.ArgumentParser()

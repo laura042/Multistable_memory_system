@@ -1,11 +1,10 @@
 import argparse
+import os
+
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-import os
-
 import pandas as pd
-
 from matplotlib import font_manager as fm
 
 parser = argparse.ArgumentParser()
