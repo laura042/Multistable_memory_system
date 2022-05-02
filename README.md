@@ -6,7 +6,7 @@ This repository was used to produce the results of the article "Dynamically writ
 
 ### Description of the repository
 
-The repertory [Contribution guidelines for this project](gym_systmemoire) contains the environment simulating the multisatble chain. 
+The repertory [gym_systmemoire](gym_systmemoire) contains the environment simulating the multisatble chain. 
 The file Config_env.py is used to configure the environment we want to use.
 The repertory "pfrl-master" contains the RL agent and functions to train it. This repertory can be found here https://github.com/pfnet/pfrl.
 In this project, we have modified the file pfrl/experiments/train_agent.py.
