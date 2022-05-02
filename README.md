@@ -6,14 +6,14 @@ This repository was used to produce the results of the article "Dynamically writ
 
 ### Description of the repository
 
-The repertory [gym_systmemoire](gym_systmemoire) contains the environment simulating the multisatble chain. 
-The file Config_env.py is used to configure the environment we want to use.
-The repertory "pfrl-master" contains the RL agent and functions to train it. This repertory can be found here https://github.com/pfnet/pfrl.
-In this project, we have modified the file pfrl/experiments/train_agent.py.
-The file Train_phase.py is used to train the agent and the file Test_phase.py generate a chosen number of episodes or steps to test 
+The repertory [gym_systmemoire](gym_systmemoire) contains the environment simulating the multistable chain. 
+The file [Config_env.py](Config_env.py) is used to configure the environment we want to use.
+The repertory [pfrl-master](pfrl-master) contains the RL agent and functions to train it. This repertory can be found here https://github.com/pfnet/pfrl.
+In this project, we have modified the file [train_agent.py](pfrl-master/pfrl/experiments/train_agent.py).
+The file [Train_phase.py](Train_phase.py) is used to train the agent and the file [Test_phase.py](Test_phase.py) generates a chosen number of episodes or steps to test 
 the learned models. 
-The repertory TL is used to do Transfer Learning from a regime to others by varying the friction coefficient (see fig. 2 b) of the article).
-The repertory two_internal_time_scales is used to generate the data of fig. 3 and the repertory scaling_analysis is used to generate the 
+The repertory [TL](TL) is used to do Transfer Learning from a regime to others by varying the friction coefficient (see fig. 2 b) of the article).
+The repertory [two_internal_time_scales](two_internal_time_scales) is used to generate the data of fig. 3 and the repertory [scaling_analysis](scaling_analysis) is used to generate the 
 data of fig. 4.
 
 
@@ -26,4 +26,5 @@ The environment can be installed using :
 PFRL can be installed using :
 
 `cd pfrl-master`
+
 `python setup.py install`
