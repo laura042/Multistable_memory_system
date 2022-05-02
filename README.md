@@ -6,7 +6,7 @@ This repository was used to produce the results of the article "Dynamically writ
 
 ### Description of the repository
 
-The repertory "gym_systmemoire" contains the environment simulating the multisatble chain. 
+The repertory [Contribution guidelines for this project](gym_systmemoire) contains the environment simulating the multisatble chain. 
 The file Config_env.py is used to configure the environment we want to use.
 The repertory "pfrl-master" contains the RL agent and functions to train it. This repertory can be found here https://github.com/pfnet/pfrl.
 In this project, we have modified the file pfrl/experiments/train_agent.py.
@@ -16,3 +16,14 @@ The repertory TL is used to do Transfer Learning from a regime to others by vary
 The repertory two_internal_time_scales is used to generate the data of fig. 3 and the repertory scaling_analysis is used to generate the 
 data of fig. 4.
 
+
+### Installation
+
+The environment can be installed using :
+
+`python setup.py install`
+
+PFRL can be installed using :
+
+`cd pfrl-master`
+`python setup.py install`
