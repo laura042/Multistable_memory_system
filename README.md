@@ -7,7 +7,7 @@ This repository was used to produce the results of the article "Dynamically writ
 ### Description of the repository
 
 The repertory [gym_systmemoire](gym_systmemoire) contains the environment simulating the multistable chain. 
-The file [Config_env.py](Config_env.py) is used to configure the environment we want to use.
+The file [Config_env.py](Config_env.py) is used to configure the environment.
 The repertory [pfrl-master](pfrl-master) contains the RL agent and functions to train it. This repertory can be found here [PFRL](https://github.com/pfnet/pfrl).
 In this project, we have modified the file [train_agent.py](pfrl-master/pfrl/experiments/train_agent.py).
 The file [Train_phase.py](Train_phase.py) is used to train the agent and the file [Test_phase.py](Test_phase.py) generates a chosen number of episodes or steps to test 
