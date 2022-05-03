@@ -77,4 +77,7 @@ To reproduce the results of Fig. 4 :
 
 [MIT License](LICENSE)
 
+### DOI 
+
+[![DOI](https://zenodo.org/badge/485346961.svg)](https://zenodo.org/badge/latestdoi/485346961)
 
