@@ -73,4 +73,8 @@ To reproduce the results of Fig. 4 :
 
 `python3 plot_scaling.py [options]`
 
+### License
+
+[MIT License](LICENSE)
+
 
