@@ -8,7 +8,7 @@ import torch
 import numpy as np
 
 import sys
-from Functions import get_success_rate as s_r
+from Functions import get_success_rate
 
 
 def save_agent_replay_buffer(agent, t, outdir, suffix="", logger=None):
@@ -128,7 +128,7 @@ def train_agent(
                         np.savetxt(f, actions)
                 if episode_idx > 100:
                     if automatically_stop==True:
-                        success_rate = s_r.get_success_rate('{}/nb_of_steps.npy'.format(outdir), max_episode_len)
+                        success_rate = get_success_rate('{}/nb_of_steps.npy'.format(outdir), max_episode_len)
                         if success_rate>success_threshold:
                             sys.exit(0)
                 #Scheduler
