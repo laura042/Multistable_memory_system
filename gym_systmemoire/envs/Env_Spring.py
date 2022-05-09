@@ -7,6 +7,8 @@ import random
 
 from gym_systmemoire.envs import Function
 
+import copy
+
 
 class Couplage_n_Env_Spring(gym.Env):
     """
@@ -192,7 +194,7 @@ class Couplage_n_Env_Spring(gym.Env):
             x_v = np.concatenate((x, v))
 
         else:
-            x_v = self.ini_pos
+            x_v = copy.copy(self.ini_pos)
 
         if self.start_with_gaussian_vel==True:
             for i in range(self.nb_ressort):
