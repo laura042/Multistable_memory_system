@@ -88,9 +88,9 @@ class Couplage_n_Env_Spring(gym.Env):
         k = np.zeros(self.nb_ressort)
 
         for i in range(self.nb_ressort):
-            x[:, i] = self.system[i].x_e
-            extr_x[:, i] = self.system[i].extr_x
-            extr_v[:, i] = self.system[i].extr_v
+            x[:, i] = copy.copy(self.system[i].x_e)
+            extr_x[:, i] = copy.copy(self.system[i].extr_x)
+            extr_v[:, i] = copy.copy(self.system[i].extr_v)
 
         return x, extr_x, extr_v, k
 
