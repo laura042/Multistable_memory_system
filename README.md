@@ -2,7 +2,7 @@
 
 The aim of this project is to simulate a 1D multistable chain composed of coupled bistable spring-mass units and to control
 it using a Reinforcement Learning agent, Twin-Delayed DDPG. We used the TD3 agent implemented here [PFRL](https://github.com/pfnet/pfrl).
-This repository was used to produce the results of the article "Dynamically writing coupled memories using a reinforcement learning agent, meeting physical bounds".
+This repository was used to produce the results of the article "Dynamically writing coupled memories using a reinforcement learning agent, meeting physical bounds" (https://arxiv.org/pdf/2205.03471.pdf).
 
 ### Description of the repository
 
