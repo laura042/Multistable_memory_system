@@ -3,7 +3,7 @@ import sys
 
 from pfrl import experiments
 
-from Functions import Train
+from Classes import Train
 
 
 parser = argparse.ArgumentParser()

@@ -3,7 +3,7 @@ import sys
 
 from pfrl import experiments
 
-from Functions import Test_phase
+from Classes import Test_phase
 
 
 parser = argparse.ArgumentParser()
