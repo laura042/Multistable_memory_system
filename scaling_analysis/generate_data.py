@@ -5,7 +5,7 @@ import numpy as np
 
 from pfrl import experiments
 
-from Functions import Train
+from Classes import Train
 
 import Config_env
 

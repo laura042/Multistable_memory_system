@@ -1,6 +1,6 @@
 import argparse
 
-from Functions import Force_analysis
+from Classes import Force_analysis
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--path_for_loading", type=str, default=None, help="path for pos/vel/force results")
