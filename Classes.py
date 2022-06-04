@@ -87,11 +87,9 @@ class Train():
         class Policy(nn.Module):
             def __init__(self, nb_of_neurons_layer_1, nb_of_neurons_layer_2):
                 super(Policy, self).__init__()
-                self.nb_of_neurons_layer_1 = nb_of_neurons_layer_1
-                self.nb_of_neurons_layer_2 = nb_of_neurons_layer_2
-                self.fc1_policy = nn.Linear(obs_size, self.nb_of_neurons_layer_1)
-                self.fc2_policy = nn.Linear(self.nb_of_neurons_layer_1, self.nb_of_neurons_layer_2)
-                self.fc3_policy = nn.Linear(self.nb_of_neurons_layer_2, action_size)
+                self.fc1_policy = nn.Linear(obs_size, nb_of_neurons_layer_1)
+                self.fc2_policy = nn.Linear(nb_of_neurons_layer_1, nb_of_neurons_layer_2)
+                self.fc3_policy = nn.Linear(nb_of_neurons_layer_2, action_size)
                 self.policy_deter = pfrl.policies.DeterministicHead()
 
                 self.act1_policy = nn.ReLU()
@@ -109,12 +107,10 @@ class Train():
         class Qfunc(nn.Module):
             def __init__(self, nb_of_neurons_layer_1, nb_of_neurons_layer_2):
                 super(Qfunc, self).__init__()
-                self.nb_of_neurons_layer_1 = nb_of_neurons_layer_1
-                self.nb_of_neurons_layer_2 = nb_of_neurons_layer_2
                 self.concat = pfrl.nn.ConcatObsAndAction()
-                self.fc1_qfunc = nn.Linear(obs_size + action_size, self.nb_of_neurons_layer_1)
-                self.fc2_qfunc = nn.Linear(self.nb_of_neurons_layer_1, self.nb_of_neurons_layer_2)
-                self.fc3_qfunc = nn.Linear(self.nb_of_neurons_layer_2, 1)
+                self.fc1_qfunc = nn.Linear(obs_size + action_size, nb_of_neurons_layer_1)
+                self.fc2_qfunc = nn.Linear(nb_of_neurons_layer_1, nb_of_neurons_layer_2)
+                self.fc3_qfunc = nn.Linear(nb_of_neurons_layer_2, 1)
 
                 self.act1_qfunc = nn.ReLU()
 
