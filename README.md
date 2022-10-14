@@ -17,6 +17,8 @@ The repertory [two_internal_time_scales](two_internal_time_scales) is used to ge
 data of fig. 4.
 The repertory [func_plot](func_plot) contains scripts to plot the [learning dynamics](func_plot/plot_success_rate.py), the [force signal](func_plot/plot_force_signal.py)
 and the [elongations of each mass](func_plot/plot_elongation.py).
+The repertory [ilqr](ilqr) contains iLQR controller. This repertory can be found here [iLQR](https://github.com/anassinator/ilqr). We added a directory [ilqr_run](ilqr/ilqr_run) that contains 
+the [dynamics of the multi-stable chain](ilqr/ilqr_run/env_dynamics.py) and [script](ilqr/ilqr_run/main.py) to perform a transition with iLQR controller.  
 
 
 ### Installation
